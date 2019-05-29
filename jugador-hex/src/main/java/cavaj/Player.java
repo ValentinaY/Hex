@@ -1,5 +1,6 @@
 package cavaj;
 import java.util.ArrayList;
+import java.util.Random;
 
 import co.edu.javeriana.algoritmos.proyecto.*;
 
@@ -10,8 +11,10 @@ public class Player implements JugadorHex{
 	int hercolor = 0;
 	ColorJugador mycolor_;
 	ColorJugador hercolor_;
+	boolean possibleSwap;
 	
 	public Player() {
+		possibleSwap = true;
 		board = new Board();
 		// TODO Auto-generated constructor stub
 	}
@@ -20,11 +23,18 @@ public class Player implements JugadorHex{
 	public Jugada jugar(Tablero tablero, ColorJugador color) {
 		board = board.clone(tablero);
 		
+		if(possibleSwap) {
+			possibleSwap = false;
+			return swap();
+		}
+		
 //		Sólo para test
+		/*
 		board.shortestwayB();
 		board.shortestwayW();
 		board.showWaysB();
 		board.showWaysW();
+		*/
 //		Sólo para test
 		
 		/*
@@ -51,6 +61,11 @@ public class Player implements JugadorHex{
 		*/
 		
 		return null;
+	}
+
+	private Jugada swap() {
+		Random r = new Random();
+		return new Jugada(r.nextInt(5)+4,r.nextInt(5)+4);
 	}
 
 	@Override
