@@ -291,8 +291,8 @@ public class Board implements Tablero {
 			val_i = 0;
 			val_j = 11;
 			for (int i = 1; i < 12; i++) {
-				if (board[i][11] < minValue) {
-					minValue = board[i][11];
+				if (waysW[i][11] < minValue) {
+					minValue = waysW[i][11];
 					val_i = i;
 				}
 			}
