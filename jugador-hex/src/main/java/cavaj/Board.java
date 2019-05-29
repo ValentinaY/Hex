@@ -238,10 +238,45 @@ public class Board implements Tablero{
 	 * @return
 	 */
 	public ArrayList<Jugada> gapssw(int color){
-		/*
-		 * Terminar
-		 */
-		return null;
+		ArrayList<Jugada> jugadas = new ArrayList<Jugada>();
+		int minValue, val_i, val_j;
+		
+		if(color == 1) {
+			for(int i = 11; i < 1; i--) {
+				minValue = board[i][0];
+				val_i = i;
+				val_j = 0;
+				for(int j = 0; j < 11; j++) {
+					if(board[i][j] < minValue){
+						minValue = board[i][j];
+						val_i = i;
+						val_j = j;
+					}
+				}
+				Jugada jugada = new Jugada(val_i, val_j);
+				jugadas.add(jugada);
+			}
+		}
+		
+		if(color == 2) {
+			for(int j = 11; j < 1; j--) {
+				minValue = board[0][j];
+				val_i = 0;
+				val_j = j;
+				for(int i = 0; i < 11; i++) {
+					if(board[i][j] < minValue){
+						minValue = board[i][j];
+						val_i = i;
+						val_j = j;
+					}
+				}
+				Jugada jugada = new Jugada(val_i, val_j);
+				jugadas.add(jugada);
+			}
+		}
+		
+		return jugadas;
+		
 	}
 	
 	/**
@@ -272,4 +307,5 @@ public class Board implements Tablero{
 			System.out.println();
 		}
 	}
+
 }
