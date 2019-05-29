@@ -260,47 +260,55 @@ public class Board implements Tablero {
 		int minValue, val_i, val_j;
 
 		if (color == 1) {
-			minValue = board[11][0];
+			minValue = INF;
 			val_i = 11;
 			val_j = 0;
-			for (int j = 1; j < 11; j++) {
-				if (board[11][j] < minValue) {
-					minValue = board[11][j];
+			for (int j = 1; j < 12; j++) {
+				if (waysB[11][j] < minValue) {
+					minValue = waysB[11][j];
 					val_j = j;
 				}
 			}
 			Jugada jugada = new Jugada(val_i, val_j);
-			jugadas.add(jugada);
+			if(board[val_i][val_j] == 0) {
+				jugadas.add(jugada);
+			}
 
 			while (val_i > 0) {
 				posIJ = min_vecino_filas(val_i, val_j);
 				val_i = posIJ.get(0);
 				val_j = posIJ.get(1);
 				Jugada jugada_v = new Jugada(val_i, val_j);
-				jugadas.add(jugada_v);
+				if(board[val_i][val_j] == 0) {
+					jugadas.add(jugada_v);
+				}
 			}
 
 		}
 
 		if (color == 2) {
-			minValue = board[0][11];
+			minValue = INF;
 			val_i = 0;
 			val_j = 11;
-			for (int i = 1; i < 11; i++) {
+			for (int i = 1; i < 12; i++) {
 				if (board[i][11] < minValue) {
 					minValue = board[i][11];
 					val_i = i;
 				}
 			}
 			Jugada jugada = new Jugada(val_i, val_j);
-			jugadas.add(jugada);
+			if(board[val_i][val_j] == 0) {
+				jugadas.add(jugada);
+			}
 
 			while (val_j > 0) {
 				posIJ = min_vecino_columnas(val_i, val_j);
 				val_i = posIJ.get(0);
 				val_j = posIJ.get(1);
 				Jugada jugada_v = new Jugada(val_i, val_j);
-				jugadas.add(jugada_v);
+				if(board[val_i][val_j] == 0) {
+					jugadas.add(jugada_v);
+				}
 			}
 		}
 
@@ -323,25 +331,25 @@ public class Board implements Tablero {
 		ArrayList<Integer> aux = new ArrayList<Integer>();
 
 		if (j - 1 >= 0) {
-			min_vecino.add(board[i][j - 1]);
+			min_vecino.add(waysB[i][j - 1]);
 			aux.add(i);
 			aux.add(j - 1);
 			pos.add(aux);
 		}
 		if (i - 1 >= 0 && j - 1 >= 0) {
-			min_vecino.add(board[i - 1][j - 1]);
+			min_vecino.add(waysB[i - 1][j - 1]);
 			aux.add(i - 1);
 			aux.add(j - 1);
 			pos.add(aux);
 		}
 		if (i - 1 >= 0) {
-			min_vecino.add(board[i - 1][j]);
+			min_vecino.add(waysB[i - 1][j]);
 			aux.add(i - 1);
 			aux.add(j);
 			pos.add(aux);
 		}
 		if (j + 1 <= 11) {
-			min_vecino.add(board[i][j + 1]);
+			min_vecino.add(waysB[i][j + 1]);
 			aux.add(i);
 			aux.add(j + 1);
 			pos.add(aux);
@@ -359,25 +367,25 @@ public class Board implements Tablero {
 		ArrayList<Integer> aux = new ArrayList<Integer>();
 
 		if (j - 1 >= 0) {
-			min_vecino.add(board[i][j - 1]);
+			min_vecino.add(waysW[i][j - 1]);
 			aux.add(i);
 			aux.add(j - 1);
 			pos.add(aux);
 		}
 		if (i - 1 >= 0 && j - 1 >= 0) {
-			min_vecino.add(board[i - 1][j - 1]);
+			min_vecino.add(waysW[i - 1][j - 1]);
 			aux.add(i - 1);
 			aux.add(j - 1);
 			pos.add(aux);
 		}
 		if (i - 1 >= 0) {
-			min_vecino.add(board[i - 1][j]);
+			min_vecino.add(waysW[i - 1][j]);
 			aux.add(i - 1);
 			aux.add(j);
 			pos.add(aux);
 		}
 		if (i + 1 <= 11) {
-			min_vecino.add(board[i + 1][j]);
+			min_vecino.add(waysW[i + 1][j]);
 			aux.add(i + 1);
 			aux.add(j);
 			pos.add(aux);
@@ -396,10 +404,22 @@ public class Board implements Tablero {
 	 * @return
 	 */
 	public int costsw(int color) {
-		/*
-		 * Terminar
-		 */
-		return 0;
+		int min= INF;
+		if(color == 1) {
+			for (int i = 1; i < 12; i++) {
+				if(min < waysB[11][i]) {
+					min = waysB[11][i];
+				}
+			}
+		}
+		if(color == 0) {
+			for (int i = 1; i < 12; i++) {
+				if(min < waysW[i][11]) {
+					min = waysW[i][11];
+				}
+			}
+		}
+		return min;
 	}
 
 	public void setMove(int i, int j, int color) {

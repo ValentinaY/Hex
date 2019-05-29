@@ -14,30 +14,29 @@ public class Player implements JugadorHex{
 	boolean possibleSwap;
 	
 	public Player() {
-		possibleSwap = true;
+//		Debería iniciar en true
+		possibleSwap = false;
 		board = new Board();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public Jugada jugar(Tablero tablero, ColorJugador color) {
-		board = board.clone(tablero);
+		this.board = board.clone(tablero);
+		
+//		Sólo para test
+		
+		board.shortestwayB();
+		board.shortestwayW();
+		board.showWaysB();
+		board.showWaysW();
+//		Sólo para test
 		
 		if(possibleSwap) {
 			possibleSwap = false;
 			return swap();
 		}
 		
-//		Sólo para test
-		/*
-		board.shortestwayB();
-		board.shortestwayW();
-		board.showWaysB();
-		board.showWaysW();
-		*/
-//		Sólo para test
 		
-		/*
 		if(color.toString().compareTo("NEGRO") == 0) {
 			this.mycolor_ = ColorJugador.NEGRO;
 			this.hercolor_ = ColorJugador.BLANCO;
@@ -57,15 +56,11 @@ public class Player implements JugadorHex{
 		else {
 			return destruir();
 		}
-		
-		*/
-		
-		return null;
 	}
 
 	private Jugada swap() {
 		Random r = new Random();
-		return new Jugada(r.nextInt(5)+4,r.nextInt(5)+4);
+		return new Jugada(true, r.nextInt(5)+4,r.nextInt(5)+4);
 	}
 
 	@Override

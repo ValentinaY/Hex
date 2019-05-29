@@ -11,8 +11,8 @@ public class Test {
 	
 	public static void main(String[] args) {
 		JugadorHex jugador = new Player();
-		jugador.jugar(Tableros.getT1(), ColorJugador.BLANCO);
-		
+		Jugada jugada =jugador.jugar(Tableros.getT2(), ColorJugador.BLANCO);
+		System.out.println(jugada);
 	}
 
 }
