@@ -55,6 +55,8 @@ public class Board implements Tablero{
 
 	@Override
 	public ColorJugador casilla(int fila, int columna) {
+		if(board[fila][columna] == 0)
+			return null;
 		return board[fila][columna]==1? ColorJugador.NEGRO: ColorJugador.BLANCO;
 	}
 	
@@ -86,20 +88,22 @@ public class Board implements Tablero{
 	 * @param tablero
 	 * @return
 	 */
-	public Board clone(Tablero tablero) {
+	public Board clone(Tablero tablero) {		
 		Board board= new Board();
-		int t=0;
 		for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 11; j++) {
-				/*
-				 * Leer t, dado tablero.
-				 */
-				board.setMove(i, j, t);
+				if(tablero.casilla(i, j) == ColorJugador.NEGRO)
+					board.setMove(i, j, 1);			
+				else if(tablero.casilla(i, j) == ColorJugador.NEGRO)
+					board.setMove(i, j, 2);
+				else
+					board.setMove(i, j, 0);
 			}
 		}
 		return board;
 	}
 	
+
 	/**
 	 * Devuelve un tablero nuevo con los mismos datos.
 	 */
