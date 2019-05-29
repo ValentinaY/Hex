@@ -19,8 +19,15 @@ public class Player implements JugadorHex{
 	@Override
 	public Jugada jugar(Tablero tablero, ColorJugador color) {
 		board = board.clone(tablero);
-		System.out.println(board.getMove(4, 4));
-		System.out.println("bandera");
+		
+//		Sólo para test
+		board.shortestwayB();
+		board.shortestwayW();
+		board.showWaysB();
+		board.showWaysW();
+//		Sólo para test
+		
+		/*
 		if(color.toString().compareTo("NEGRO") == 0) {
 			this.mycolor_ = ColorJugador.NEGRO;
 			this.hercolor_ = ColorJugador.BLANCO;
@@ -40,6 +47,10 @@ public class Player implements JugadorHex{
 		else {
 			return destruir();
 		}
+		
+		*/
+		
+		return null;
 	}
 
 	@Override
@@ -48,9 +59,13 @@ public class Player implements JugadorHex{
 	}
 
 //	Nuestros métodos
+	
+	/**
+	 * Busca la mejor jugada para la ruta más corta, prefiriendo aquellas que le cuesten más al oponente.
+	 * @return
+	 */
 	public Jugada construir() {
-		board.shortestwayB();
-		board.shortestwayW();
+		
 		ArrayList<Jugada> moves = board.gapssw(mycolor);
 		int max = 0;
 		
@@ -72,6 +87,10 @@ public class Player implements JugadorHex{
 		return hmove;
 	}
 	
+	/**
+	 * Busca la jugada que le cuesta más al oponente, prefiriendo aquellas que beneficien más.
+	 * @return
+	 */
 	public Jugada destruir() {
 		ArrayList<Jugada> moves = board.gapssw(hercolor);
 		int max = 0;

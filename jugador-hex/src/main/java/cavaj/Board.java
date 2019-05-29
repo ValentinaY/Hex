@@ -7,14 +7,14 @@ public class Board implements Tablero{
 
 	private static int INF= 9999;
 	
+	private int[][] waysW;
 	private int[][] waysB;
-	private int[][] waysR;
 	
 	private int[][] board;
 	
 	public Board()  {
-		this.waysB = new int[11+2][11+1];
-		this.waysR = new int[11+1][11+2];
+		this.waysW = new int[11+2][11+1];
+		this.waysB = new int[11+1][11+2];
 
 		board = new int[11][11];
 		for (int i = 0; i < 11; i++) {
@@ -27,7 +27,12 @@ public class Board implements Tablero{
 	@Override
 	public void aplicarJugada(Jugada jugada, ColorJugador colorJugador) {
 		//Negro es 1, blanco es 2
-		board[jugada.getFila()][jugada.getColumna()]=colorJugador.ordinal()+1;
+		if(colorJugador == ColorJugador.BLANCO) {
+			board[jugada.getFila()][jugada.getColumna()]=2;
+		}
+		if(colorJugador == ColorJugador.NEGRO) {
+			board[jugada.getFila()][jugada.getColumna()]=1;
+		}
 	}
 
 	@Override
@@ -38,11 +43,11 @@ public class Board implements Tablero{
 		int minb=INF;
 		int minw=INF;
 		for (int i=1; i<12; i++) {
-			if (minw > waysR[11][i]) {
-				minw = waysR[11][i];
+			if (minw > waysB[11][i]) {
+				minw = waysB[11][i];
 			}
-			if (minb > waysB[i][11]) {
-				minb = waysB[i][11];
+			if (minb > waysW[i][11]) {
+				minb = waysW[i][11];
 			}
 		}
 		return minb<minw? ColorJugador.BLANCO: ColorJugador.NEGRO;
@@ -55,22 +60,27 @@ public class Board implements Tablero{
 	
 //	Nuestros métodos
 
+	/**
+	 * Retorna el número del color que está ganando con el tablero actual.
+	 * Negro = 1, Blanco = 2.
+	 * @return
+	 */
 	public int ganadortemp() {
-		// TODO Auto-generated method stubboard.shortestwayB();
 		shortestwayW();
 		shortestwayB();
 		int minb=INF;
 		int minw=INF;
 		for (int i=1; i<12; i++) {
-			if (minw > waysR[11][i]) {
-				minw = waysR[11][i];
+			if (minb > waysB[11][i]) {
+				minb = waysB[11][i];
 			}
-			if (minb > waysB[i][11]) {
-				minb = waysB[i][11];
+			if (minw > waysW[i][11]) {
+				minw = waysW[i][11];
 			}
 		}
-		return minb<minw? 2: minb>minw? 1: 0;
+		return minb<minw? 1: minb>minw? 2: 0;
 	}
+	
 	/**
 	 * Devuelve un tablero nuevo con los datos del tablero dado.
 	 * @param tablero
@@ -78,10 +88,13 @@ public class Board implements Tablero{
 	 */
 	public Board clone(Tablero tablero) {
 		Board board= new Board();
+		int t=0;
 		for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 11; j++) {
-				board.setMove(i, j, 0);
-//				board.setMove(i, j, tablero.casilla(i, j).ordinal()+1);
+				/*
+				 * Leer t, dado tablero.
+				 */
+				board.setMove(i, j, t);
 			}
 		}
 		return board;
@@ -94,64 +107,27 @@ public class Board implements Tablero{
 		Board board= new Board();
 		for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 11; j++) {
-				board.setMove(i, j, 0);
+				board.setMove(i, j, getMove(i, j));
 			}
 		}
 		return board;
 	}
 	
 	/**
-	 * Llena la matriz ways 
+	 * Llena la matriz waysB (Vertical)
 	 * @return
 	 */
-	public int shortestwayW() {
+	public int shortestwayB() {
 		for(int i=0;i<12;i++) {
 			for(int j=0;j<13;j++){
-				waysR[i][j]=-1;
-				if(j==0 || j==12) waysR[i][j]=INF;
-				if(i==0) waysR[i][j]=0;
+				waysB[i][j]=-1;
+				if(j==0 || j==12) waysB[i][j]=INF;
+				if(i==0) waysB[i][j]=0;
 			}
 		}
 		
 		for (int i=1;i<12;i++) {
 			for (int j=1;j<12;j++) {
-				if(waysR[i][j]==-1) {
-					waysR[i][j]=shortestwayW(i,j);
-				}
-			}			
-		}
-		return 0;
-	}
-	
-	public int shortestwayW(int i, int j) {
-		int sum=1;
-		if (board[i-1][j-1] == 1) {
-			return INF;
-		}
-		if (board[i-1][j-1] == 2) {
-			sum=0;
-		}
-		int a=waysR[i-1][j];
-		int b=waysR[i-1][j-1];
-		int c=waysR[i][j+1];
-		if (c==-1) {
-			c=shortestwayW(i,j+1);
-		}
-		
-		return Math.min(Math.min(a,b),c)+sum;
-	}
-
-	public int shortestwayB() {
-		for(int i=0;i<13;i++) {
-			for(int j=0;j<12;j++){
-				waysB[i][j]=-1;
-				if(i==0 || i==12) waysB[i][j]=INF;
-				if(j==0) waysB[i][j]=0;
-			}
-		}
-		
-		for (int j=1;j<12;j++) {
-			for (int i=1;i<12;i++) {
 				if(waysB[i][j]==-1) {
 					waysB[i][j]=shortestwayB(i,j);
 				}
@@ -160,7 +136,60 @@ public class Board implements Tablero{
 		return 0;
 	}
 	
+	/**
+	 * Encuentra el mínimo costo. Formato 1
+	 * @param i
+	 * @param j
+	 * @return
+	 */
 	public int shortestwayB(int i, int j) {
+		int sum=1;
+		if (board[i-1][j-1] == 1) {
+			return INF;
+		}
+		if (board[i-1][j-1] == 2) {
+			sum=0;
+		}
+		int a=waysB[i-1][j];
+		int b=waysB[i-1][j-1];
+		int c=waysB[i][j+1];
+		if (c==-1) {
+			c=shortestwayB(i,j+1);
+		}
+		
+		return Math.min(Math.min(a,b),c)+sum;
+	}
+
+	/**
+	 * Llena la matriz waysW. (Horizontal)
+	 * @return
+	 */
+	public int shortestwayW() {
+		for(int i=0;i<13;i++) {
+			for(int j=0;j<12;j++){
+				waysW[i][j]=-1;
+				if(i==0 || i==12) waysW[i][j]=INF;
+				if(j==0) waysW[i][j]=0;
+			}
+		}
+		
+		for (int j=1;j<12;j++) {
+			for (int i=1;i<12;i++) {
+				if(waysW[i][j]==-1) {
+					waysW[i][j]=shortestwayW(i,j);
+				}
+			}			
+		}
+		return 0;
+	}
+	
+	/**
+	 * Encuentra el mínimo costo. Formato 1
+	 * @param i
+	 * @param j
+	 * @return
+	 */
+	public int shortestwayW(int i, int j) {
 		int sum=1;
 		if (board[i-1][j-1] == 2) {
 			return INF;
@@ -168,39 +197,62 @@ public class Board implements Tablero{
 		if (board[i-1][j-1] == 1) {
 			sum=0;
 		}
-		int a=waysB[i][j-1];
-		int b=waysB[i-1][j-1];
-		int c=waysB[i+1][j];
+		int a=waysW[i][j-1];
+		int b=waysW[i-1][j-1];
+		int c=waysW[i+1][j];
 		if (c==-1) {
-			c=shortestwayB(i+1,j);
+			c=shortestwayW(i+1,j);
 		}
 		
 		return Math.min(Math.min(a,b),c)+sum;
 	}
 	
-	public void showWaysB() {
+	/**
+	 * Muestra la matriz con la menor ruta vertical.
+	 */
+	public void showWaysW() {
 		for (int i=0;i<13;i++) {
 			for (int j=0;j<12;j++) {
+				System.out.print(waysW[i][j]+" ");
+			}
+			System.out.println();
+		}
+	}
+
+	/**
+	 * Muestra la matriz con la menor ruta horizontal.
+	 */
+	public void showWaysB() {
+		for (int i=0;i<12;i++) {
+			for (int j=0;j<13;j++) {
 				System.out.print(waysB[i][j]+" ");
 			}
 			System.out.println();
 		}
 	}
 
-	public void showWaysW() {
-		for (int i=0;i<12;i++) {
-			for (int j=0;j<13;j++) {
-				System.out.print(waysR[i][j]+" ");
-			}
-			System.out.println();
-		}
-	}
-
+	/**
+	 * Dado un color, se retornan las jugadas necesarias para completar esa ruta.
+	 * Cuando el color es blanco, se intenta hacer una ruta horizontal, para el negro es vertical.
+	 * @param color
+	 * @return
+	 */
 	public ArrayList<Jugada> gapssw(int color){
+		/*
+		 * Terminar
+		 */
 		return null;
 	}
 	
+	/**
+	 * Dado un color, se retorna el mínimo costo de completar la mínima ruta.
+	 * @param color
+	 * @return
+	 */
 	public int costsw(int color) {
+		/*
+		 * Terminar
+		 */
 		return 0;
 	}
 
@@ -210,5 +262,14 @@ public class Board implements Tablero{
 	
 	public int getMove(int i, int j) {
 		return board[i][j];
+	}
+	
+	public void showBoard() {
+		for (int i = 0; i < 11; i++) {
+			for (int j = 0; j < 11; j++) {
+				System.out.print(board[i][j]);
+			}
+			System.out.println();
+		}
 	}
 }

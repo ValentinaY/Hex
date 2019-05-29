@@ -10,10 +10,9 @@ public class Test {
 	}
 	
 	public static void main(String[] args) {
-		Tablero tablero = new Board();
 		JugadorHex jugador = new Player();
+		jugador.jugar(Tableros.getT1(), ColorJugador.BLANCO);
 		
-		jugador.jugar(tablero, ColorJugador.BLANCO);
 	}
 
 }
