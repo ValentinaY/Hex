@@ -269,17 +269,17 @@ public class Board implements Tablero {
 					val_j = j;
 				}
 			}
-			Jugada jugada = new Jugada(val_i, val_j);
-			if(board[val_i][val_j] == 0) {
+			Jugada jugada = new Jugada(val_i-1, val_j-1);
+			if(board[val_i-1][val_j-1] == 0) {
 				jugadas.add(jugada);
 			}
 
-			while (val_i > 0) {
+			while (val_i > 1) {
 				posIJ = min_vecino_filas(val_i, val_j);
 				val_i = posIJ.get(0);
 				val_j = posIJ.get(1);
-				Jugada jugada_v = new Jugada(val_i, val_j);
-				if(board[val_i][val_j] == 0) {
+				Jugada jugada_v = new Jugada(val_i-1, val_j-1);
+				if(board[val_i-1][val_j-1] == 0) {
 					jugadas.add(jugada_v);
 				}
 			}
@@ -296,17 +296,17 @@ public class Board implements Tablero {
 					val_i = i;
 				}
 			}
-			Jugada jugada = new Jugada(val_i, val_j);
-			if(board[val_i][val_j] == 0) {
+			Jugada jugada = new Jugada(val_i-1, val_j-1);
+			if(board[val_i-1][val_j-1] == 0) {
 				jugadas.add(jugada);
 			}
 
-			while (val_j > 0) {
+			while (val_j > 1) {
 				posIJ = min_vecino_columnas(val_i, val_j);
 				val_i = posIJ.get(0);
 				val_j = posIJ.get(1);
-				Jugada jugada_v = new Jugada(val_i, val_j);
-				if(board[val_i][val_j] == 0) {
+				Jugada jugada_v = new Jugada(val_i-1, val_j-1);
+				if(board[val_i-1][val_j-1] == 0) {
 					jugadas.add(jugada_v);
 				}
 			}

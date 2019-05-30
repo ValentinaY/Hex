@@ -51,9 +51,11 @@ public class Player implements JugadorHex{
 		}
 		
 		if (board.ganadortemp() == this.mycolor) {
+			System.out.println("construir");
 			return construir();
 		}
 		else {
+			System.out.println("destruir");
 			return destruir();
 		}
 	}
