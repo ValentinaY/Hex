@@ -21,43 +21,53 @@ public class Player implements JugadorHex{
 
 	@Override
 	public Jugada jugar(Tablero tablero, ColorJugador color) {
-		this.board = board.clone(tablero);
-		
-//		Sólo para test
-		
-		board.shortestwayB();
-		board.shortestwayW();
-		board.showWaysB();
-		board.showWaysW();
-//		Sólo para test
-		
-		if(possibleSwap) {
-			possibleSwap = false;
-			return swap();
+		try {
+			this.board = board.clone(tablero);
+			
+//			Sólo para test
+			
+			board.shortestwayB();
+			board.shortestwayW();
+			board.showWaysB();
+			board.showWaysW();
+//			Sólo para test
+			
+			if(possibleSwap) {
+				possibleSwap = false;
+				return swap();
+			}
+			
+			
+			if(color.toString().compareTo("NEGRO") == 0) {
+				this.mycolor_ = ColorJugador.NEGRO;
+				this.hercolor_ = ColorJugador.BLANCO;
+				this.mycolor = 1;
+				this.hercolor =2;
+			}
+			if(color.toString().compareTo("BLANCO") == 0) {
+				this.mycolor_ = ColorJugador.BLANCO;
+				this.hercolor_ = ColorJugador.NEGRO;
+				this.mycolor = 2;
+				this.hercolor = 1;
+			}
+			
+			if (board.ganadortemp() == this.mycolor) {
+				System.out.println("construir");
+				return construir();
+			}
+			else {
+				System.out.println("destruir");
+				return destruir();
+			}
+		} catch (Exception e) {
+			return panic();
+			// TODO: handle exception
 		}
-		
-		
-		if(color.toString().compareTo("NEGRO") == 0) {
-			this.mycolor_ = ColorJugador.NEGRO;
-			this.hercolor_ = ColorJugador.BLANCO;
-			this.mycolor = 1;
-			this.hercolor =2;
-		}
-		if(color.toString().compareTo("BLANCO") == 0) {
-			this.mycolor_ = ColorJugador.BLANCO;
-			this.hercolor_ = ColorJugador.NEGRO;
-			this.mycolor = 2;
-			this.hercolor = 1;
-		}
-		
-		if (board.ganadortemp() == this.mycolor) {
-			System.out.println("construir");
-			return construir();
-		}
-		else {
-			System.out.println("destruir");
-			return destruir();
-		}
+	}
+
+	private Jugada panic() {
+		Random r = new Random();
+		return new Jugada(r.nextInt(11),r.nextInt(11));
 	}
 
 	private Jugada swap() {
