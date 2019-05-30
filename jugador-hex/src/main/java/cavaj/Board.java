@@ -52,7 +52,14 @@ public class Board implements Tablero {
 				minb = waysW[i][11];
 			}
 		}
-		return minb < minw ? ColorJugador.BLANCO : ColorJugador.NEGRO;
+		if(minw == 0) {
+			return ColorJugador.BLANCO;
+			
+		}
+		if(minb == 0) {
+			return ColorJugador.NEGRO;
+		}
+		return null;
 	}
 
 	@Override
