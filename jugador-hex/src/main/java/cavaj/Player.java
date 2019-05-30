@@ -67,7 +67,14 @@ public class Player implements JugadorHex{
 
 	private Jugada panic() {
 		Random r = new Random();
-		return new Jugada(r.nextInt(11),r.nextInt(11));
+		int x , y;
+		x = r.nextInt(11);
+		y = r.nextInt(11);
+		while (board.casilla(x, y) != null) {
+			x = r.nextInt(11);
+			y = r.nextInt(11);
+		}
+		return new Jugada(x,y);
 	}
 
 	private Jugada swap() {
